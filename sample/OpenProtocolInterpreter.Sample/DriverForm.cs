@@ -78,7 +78,7 @@ namespace OpenProtocolInterpreter.Sample
             {
                 Console.WriteLine($"Sending Keep Alive...");
                 var pack = driver.SendAndWaitForResponse(new Mid9999().Pack(), TimeSpan.FromSeconds(10));
-                if (pack != null && pack.HeaderData.Mid == Mid9999.MID)
+                if (pack != null && pack.Header.Mid == Mid9999.MID)
                 {
                     lastMessageArrived.Text = Mid9999.MID.ToString();
                     Console.WriteLine($"Keep Alive Received");
@@ -100,7 +100,7 @@ namespace OpenProtocolInterpreter.Sample
 
             if (pack != null)
             {
-                if (pack.HeaderData.Mid == Mid0004.MID)
+                if (pack.Header.Mid == Mid0004.MID)
                 {
                     var mid04 = pack as Mid0004;
                     Console.WriteLine($@"Error while subscribing (MID 0004):
@@ -127,7 +127,7 @@ namespace OpenProtocolInterpreter.Sample
 
             if (pack != null)
             {
-                if (pack.HeaderData.Mid == Mid0004.MID)
+                if (pack.Header.Mid == Mid0004.MID)
                 {
                     var mid04 = pack as Mid0004;
                     Console.WriteLine($@"Error while subscribing (MID 0004):

@@ -31,7 +31,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// <summary>
         /// Custom MIDs that will be used on OpenProtocol lib (Filtering my used mids)
         /// </summary>
-        public OpenProtocolDriver(IEnumerable<Type> usedMids)
+        public OpenProtocolDriver(IReadOnlyCollection<Type> usedMids)
         {
             OnReceivedMID = new Dictionary<Type, ReceivedCommandActionDelegate>();
             _midInterpreter = new MidInterpreter().UseAllMessages(usedMids);
@@ -149,7 +149,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
             {
                 var message = SendAndWaitForResponse(new Mid0001(1).Pack(), TimeSpan.FromSeconds(10));
                 if (message != null)
-                    switch (message.HeaderData.Mid)
+                    switch (message.Header.Mid)
                     {
                         case Mid0002.MID:
                             OnCommunicationStartAccepted(message as Mid0002);
@@ -181,10 +181,10 @@ namespace OpenProtocolInterpreter.Sample.Driver
         protected virtual void OnCommunicationStartError(Mid0004 mid)
         {
             Connected = false;
-            if (mid.ErrorCode == Error.CLIENT_ALREADY_CONNECTED)
+            if (mid.ErrorCode == Error.ClientAlreadyConnected)
                 Console.WriteLine("Client is already connected!!");
-            else if (mid.ErrorCode == Error.MID_REVISION_UNSUPPORTED)
-                Console.WriteLine(Error.MID_REVISION_UNSUPPORTED.ToString());
+            else if (mid.ErrorCode == Error.MidRevisionUnsupported)
+                Console.WriteLine(Error.MidRevisionUnsupported.ToString());
         }
 
         private void KeepConnectionAlive()
